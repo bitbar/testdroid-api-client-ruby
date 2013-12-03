@@ -37,8 +37,7 @@ describe TestdroidAPI::Project do
     VCR.use_cassette('p_get_run_devices') do
        
        device_run =  testRun.device_runs.get(33044968)
-       device_run.id
-       p device_run.devices
+       device_run.device['displayName'].should eq "Alcatel One Touch 991"
     end
   end
 end
