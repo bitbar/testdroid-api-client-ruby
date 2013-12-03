@@ -29,9 +29,16 @@ describe TestdroidAPI::Project do
     end
   end
   it 'run project' do
+    testRun = nil
     VCR.use_cassette('p_run_project') do
-       runName = @user.projects.get(33029366).run().display_name
-       expect(runName).to eq("Test Run 2")
+       testRun = @user.projects.get(33029366).run()
+      
+    end
+    VCR.use_cassette('p_get_run_devices') do
+       
+       device_run =  testRun.device_runs.get(33044968)
+       device_run.id
+       p device_run.devices
     end
   end
 end

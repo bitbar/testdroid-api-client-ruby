@@ -14,7 +14,7 @@ module TestdroidAPI
 				run_parameters = name.nil? ? {:params => {}} : {:params =>  {'name' => name} }
 
 				resp = @client.post("#{@uri}/runs", run_parameters)
-				Run.new(nil, nil, resp)
+				Run.new("#{@uri}/runs/#{resp['id']}", @client, resp)
 				
 			end
 			def uploadAPK(filename)
