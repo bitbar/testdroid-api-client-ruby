@@ -35,7 +35,7 @@ module TestdroidAPI
 			
 			if (@cloud_user.nil?)
 					@cloud_user = TestdroidAPI::User.new( "/#{API_VERSION}/me", self ).refresh
-					@cloud_user = TestdroidAPI::User.new( "/#{API_VERSION}/users/#{@cloud_user.id}", self ).refresh
+					#@cloud_user = TestdroidAPI::User.new( "/#{API_VERSION}/users/#{@cloud_user.id}", self ).refresh
 
 				end
 			@cloud_user
@@ -69,14 +69,25 @@ module TestdroidAPI
 				
 				@token = @client.password.get_token(@username, @password) if  @token.expired?
 				
-				  
-				  begin 
+				begin 
 					resp = @token.get(@cloud_url+"#{uri}")
-				  rescue => e
+				rescue => e
 					@logger.error "Failed to get resource #{uri} #{e}"
 					return nil
-				  end
+				end
 				 JSON.parse(resp.body)
+		end
+
+		def download(uri, file_name)
+			begin 
+				File.open(file_name, "w+b") do |file|
+					resp = @token.get("#{@cloud_url}/#{uri}")
+					file.write(resp.body)
+				end
+			rescue => e
+				@logger.error "Failed to get resource #{uri} #{e}"
+				return nil
+			end
 		end		  
 	end
 end  
