@@ -17,12 +17,6 @@ module TestdroidAPI
 				Run.new("#{@uri}/runs/#{resp['id']}", @client, resp)
 				
 			end
-			def uploadAPK(filename)
-				if !File.exist?(filename) 
-					@client.logger.error( "Invalid filename")
-					return
-				end
-				@client.upload("/projects/#{id}/apks/application",id, filename) 
-			end
+			
 		end
 end

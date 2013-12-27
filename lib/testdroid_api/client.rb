@@ -25,7 +25,9 @@ module TestdroidAPI
 			 label_groups
 		end 
 		def authorize
-			@client = OAuth2::Client.new('testdroid-cloud-api', nil, :site => @cloud_url) do |faraday|
+
+			@client = OAuth2::Client.new('testdroid-cloud-api', nil, :site => @cloud_url, :authorize_url    => 'oauth/authorize',
+                  :token_url        => 'oauth/token')  do |faraday|
   				faraday.request  :multipart
   				faraday.request  :url_encoded
   				faraday.adapter  Faraday.default_adapter

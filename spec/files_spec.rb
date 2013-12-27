@@ -8,8 +8,10 @@ describe TestdroidAPI::Files do
   end
   
   it 'get app file ' do 
+    project33029366 = nil
     VCR.use_cassette('f_android_app_file') do
-      @user.projects.get(33029366).files.android_app['id']
+       project33029366 =  @user.projects.get(33029366)
+       project33029366.files.app.should_not eq nil
       
     end
   end
@@ -23,7 +25,7 @@ describe TestdroidAPI::Files do
     VCR.use_cassette('upload_files') do
       file_name = 'apk.apk'
       file_path = File.join(File.dirname(__FILE__), 'fixtures', file_name)
-      reply = project33029366.files.uploadAPK(file_path)
+      reply = project33029366.files.uploadApplication(file_path)
       expect(reply.original_name).to eq(file_name)
       
     end
