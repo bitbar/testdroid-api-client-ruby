@@ -12,8 +12,10 @@ describe TestdroidAPI::LabelGroups do
     VCR.use_cassette('lg_all_label_groups') do
       
       label_groups = client.label_groups
+      p 'ssdlksldklskdls'
+      p label_groups
       
-      label_groups.total.should eq(14) 
+      label_groups.total.should eq(13) 
       
     end
   end

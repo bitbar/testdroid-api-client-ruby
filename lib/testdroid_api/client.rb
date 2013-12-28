@@ -37,7 +37,7 @@ module TestdroidAPI
 			
 			if (@cloud_user.nil?)
 					@cloud_user = TestdroidAPI::User.new( "/#{API_VERSION}/me", self ).refresh
-					#@cloud_user = TestdroidAPI::User.new( "/#{API_VERSION}/users/#{@cloud_user.id}", self ).refresh
+					@cloud_user = TestdroidAPI::User.new( "/#{API_VERSION}/users/#{@cloud_user.id}", self ).refresh
 
 				end
 			@cloud_user

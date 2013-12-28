@@ -11,8 +11,8 @@ describe TestdroidAPI::DeviceGroup do
 
     VCR.use_cassette('dg_all_device_groups') do
       
-      @user.device_groups.list
-      @user.device_groups.total.should eq(1) 
+      device_groups = @user.device_groups
+      device_groups.total.should eq(1) 
       
     end
   end
