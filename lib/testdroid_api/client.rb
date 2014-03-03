@@ -79,7 +79,26 @@ module TestdroidAPI
 				end
 				 JSON.parse(resp.body)
 		end
+		def delete(uri) 
+				
+				p "token expired" if @token.expired?
+				
+				@token = @client.password.get_token(@username, @password) if  @token.expired?
+				
+				begin 
+					resp = @token.delete(@cloud_url+"#{uri}")
+				rescue => e
+					@logger.error "Failed to delete resource #{uri} #{e}"
+					return nil
+				end
 
+				if (resp.status != 204)
+					@logger.error "Failed to delete resource #{uri} #{e}"
+					return nil
+				else
+					puts "response: #{resp.status}"
+				end
+		end
 		def download(uri, file_name)
 			begin 
 				File.open(file_name, "w+b") do |file|

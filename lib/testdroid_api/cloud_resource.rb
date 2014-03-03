@@ -60,5 +60,9 @@ module TestdroidAPI
 					something.to_s.gsub(/[A-Z][a-z]*/) {|s| "_#{s.downcase}"}.gsub(/^_/, '')
 				end
 			end
+			def delete
+				raise "Can't delete a resource without a REST Client" unless @client
+				client.delete(@uri)	
+			end
 		end
 end
