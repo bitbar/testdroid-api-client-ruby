@@ -1,7 +1,7 @@
 gem 'rspec', '~> 2.4'
 require 'rspec'
 require 'json'
-require_relative '../lib/testdroid_api_client'
+require_relative '../lib/testdroid-api-client'
 require 'webmock/rspec'
 require 'vcr'
 
