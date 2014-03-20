@@ -43,7 +43,11 @@ module TestdroidAPI
 				set_up_properties_from(@client.get(@uri))
 				self
 			end
-			 
+			def download_file(file_resource_name, target_file_name=nil) 
+				raise "Can't refresh a resource without a REST Client" unless @client
+				target_file_name = file_resource_name unless target_file_name
+				@client.download("#{@uri}/#{file_resource_name}", target_file_name)
+			end
 			 def camel_case_it(something)
 				if something.is_a? Hash
 				  Hash[*something.to_a.map {|a| [camel_case_it(a[0]).to_sym, a[1]]}.flatten]
