@@ -7,6 +7,7 @@ module TestdroidAPI
 
 		API_VERSION = 'api/v2'
 		CLOUD_ENDPOINT='https://cloud.testdroid.com'
+		ACCEPT_HEADERS={'Accept' => 'application/json'}
 
 		def initialize(username, password, cloud_url=CLOUD_ENDPOINT, logger = Logger.new(STDOUT))  
 			# Instance variables  
@@ -27,13 +28,14 @@ module TestdroidAPI
 		def authorize
 
 			@client = OAuth2::Client.new('testdroid-cloud-api', nil, :site => @cloud_url, :authorize_url    => 'oauth/authorize',
-                  :token_url        => 'oauth/token')  do |faraday|
+                  :token_url        => 'oauth/token',  :headers => ACCEPT_HEADERS)  do |faraday|
   				faraday.request  :multipart
   				faraday.request  :url_encoded
+  				faraday.response :logger 
   				faraday.adapter  Faraday.default_adapter
   			end
 		
-			@token = @client.password.get_token(@username, @password)
+			@token = @client.password.get_token(@username, @password, :headers => ACCEPT_HEADERS)
 			
 			if (@cloud_user.nil?)
 					@cloud_user = TestdroidAPI::User.new( "/#{API_VERSION}/me", self ).refresh
@@ -46,7 +48,7 @@ module TestdroidAPI
 				begin 
 					connection = @token.client.connection
 					payload = {:file  => Faraday::UploadIO.new(filename, file_type) }
-					response = connection.post(@cloud_url+"#{uri}",payload, @token.headers)
+					response = connection.post(@cloud_url+"#{uri}",payload, @token.headers, :headers => ACCEPT_HEADERS)
 				 rescue => e
 				  	@logger.error e
 				  	return nil
@@ -58,7 +60,7 @@ module TestdroidAPI
 			@token = @client.password.get_token(@username, @password) if  @token.expired?
 
 			begin 
-				resp = @token.post("#{@cloud_url}#{uri}", params)
+				resp = @token.post("#{@cloud_url}#{uri}", params, :headers => ACCEPT_HEADERS)
 			rescue => e
 				@logger.error "Failed to post resource #{uri} #{e}"
 				return nil
@@ -72,7 +74,7 @@ module TestdroidAPI
 				@token = @client.password.get_token(@username, @password) if  @token.expired?
 				
 				begin 
-					resp = @token.get(@cloud_url+"#{uri}")
+					resp = @token.get(@cloud_url+"#{uri}",  :headers => ACCEPT_HEADERS)
 				rescue => e
 					@logger.error "Failed to get resource #{uri} #{e}"
 					return nil
@@ -86,7 +88,7 @@ module TestdroidAPI
 				@token = @client.password.get_token(@username, @password) if  @token.expired?
 				
 				begin 
-					resp = @token.delete(@cloud_url+"#{uri}")
+					resp = @token.delete(@cloud_url+"#{uri}",  :headers => ACCEPT_HEADERS )
 				rescue => e
 					@logger.error "Failed to delete resource #{uri} #{e}"
 					return nil
@@ -102,7 +104,7 @@ module TestdroidAPI
 		def download(uri, file_name)
 			begin 
 				File.open(file_name, "w+b") do |file|
-					resp = @token.get("#{@cloud_url}/#{uri}")
+					resp = @token.get("#{@cloud_url}/#{uri}", :headers => ACCEPT_HEADERS)
 					file.write(resp.body)
 				end
 			rescue => e
