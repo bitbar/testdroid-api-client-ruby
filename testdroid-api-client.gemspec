@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name               = "testdroid-api-client"
-  s.version            = "0.0.5"
+  s.version            = "0.0.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Sakari Rautiainen"]
@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.6.2}
   s.summary = %q{Testdroid API Client!}
   s.add_runtime_dependency "oauth2"
-
+  s.add_runtime_dependency "faraday","~> 0.9.0"
   s.add_development_dependency "bump"
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec"

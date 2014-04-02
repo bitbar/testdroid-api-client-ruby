@@ -46,9 +46,11 @@ module TestdroidAPI
 		end
 		def upload(uri, filename, file_type) 
 				begin 
+
 					connection = @token.client.connection
 					payload = {:file  => Faraday::UploadIO.new(filename, file_type) }
-					response = connection.post(@cloud_url+"#{uri}",payload, @token.headers, :headers => ACCEPT_HEADERS)
+					headers = ACCEPT_HEADERS.merge(@token.headers)
+					response = connection.post(@cloud_url+"#{uri}",payload, headers)
 				 rescue => e
 				  	@logger.error e
 				  	return nil
@@ -59,8 +61,8 @@ module TestdroidAPI
 		
 			@token = @client.password.get_token(@username, @password) if  @token.expired?
 
-			begin 
-				resp = @token.post("#{@cloud_url}#{uri}", params, :headers => ACCEPT_HEADERS)
+			begin
+				resp = @token.post("#{@cloud_url}#{uri}", params.merge(:headers => ACCEPT_HEADERS))
 			rescue => e
 				@logger.error "Failed to post resource #{uri} #{e}"
 				return nil
