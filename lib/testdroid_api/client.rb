@@ -70,14 +70,14 @@ module TestdroidAPI
 			end
 			 JSON.parse(resp.body)
 		end		  
-		def get(uri) 
+		def get(uri, params={}) 
 				
 				@logger.error "token expired" if @token.expired?
 				
 				@token = @client.password.get_token(@username, @password) if  @token.expired?
 				
 				begin 
-					resp = @token.get(@cloud_url+"#{uri}",  :headers => ACCEPT_HEADERS)
+					resp = @token.get(@cloud_url+"#{uri}", params.merge(:headers => ACCEPT_HEADERS))
 				rescue => e
 					@logger.error "Failed to get resource #{uri} #{e}"
 					return nil
