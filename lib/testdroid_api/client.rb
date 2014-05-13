@@ -9,16 +9,17 @@ module TestdroidAPI
 		CLOUD_ENDPOINT='https://cloud.testdroid.com'
 		ACCEPT_HEADERS={'Accept' => 'application/json'}
 
-		def initialize(username, password, cloud_url=CLOUD_ENDPOINT, logger = Logger.new(STDOUT))  
+		def initialize(username, password, cloud_url = CLOUD_ENDPOINT, logger = nil)
 			# Instance variables  
 			@username = username  
 			@password = password  
 			@cloud_url = cloud_url
-			if(@logger.nil?) 
+			@logger = logger
+
+			if @logger.nil?
 				@logger = Logger.new(STDOUT)
 				@logger.info("Logger is not defined => output to STDOUT")
 			end
-			
 		end 
 		def label_groups
 			 label_groups = TestdroidAPI::LabelGroups.new( "/#{API_VERSION}/label-groups", self )
@@ -31,7 +32,7 @@ module TestdroidAPI
                   :token_url        => 'oauth/token',  :headers => ACCEPT_HEADERS)  do |faraday|
   				faraday.request  :multipart
   				faraday.request  :url_encoded
-  				faraday.response :logger 
+  				faraday.response :logger, @logger
   				faraday.adapter  Faraday.default_adapter
   			end
 		
@@ -71,7 +72,7 @@ module TestdroidAPI
 		end		  
 		def get(uri) 
 				
-				p "token expired" if @token.expired?
+				@logger.error "token expired" if @token.expired?
 				
 				@token = @client.password.get_token(@username, @password) if  @token.expired?
 				
@@ -85,7 +86,7 @@ module TestdroidAPI
 		end
 		def delete(uri) 
 				
-				p "token expired" if @token.expired?
+				@logger.error "token expired" if @token.expired?
 				
 				@token = @client.password.get_token(@username, @password) if  @token.expired?
 				
@@ -100,7 +101,7 @@ module TestdroidAPI
 					@logger.error "Failed to delete resource #{uri} #{e}"
 					return nil
 				else
-					puts "response: #{resp.status}"
+					@logger.info "response: #{resp.status}"
 				end
 		end
 		def download(uri, file_name)
