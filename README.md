@@ -22,7 +22,7 @@ test_run = project123.run
 p "Project state #{test_run.state}"
 
 #download all logs from test run
-test_run.device_runs.list.each { |drun| drun.download_logs("#{drun.id}_log") }
+test_run.device_runs.list({:params => {:limit => 100}}).each { |drun| drun.download_logs("#{drun.id}_log") }
 
 #Get label for android os version 2.1
 lg_android_version_2_1 = client.label_groups.list.detect {|lg| lg.display_name.casecmp("android version") == 0 }

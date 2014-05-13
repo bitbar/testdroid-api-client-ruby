@@ -19,7 +19,7 @@ module TestdroidAPI
 				raise "Can't get a resource list without a REST Client" unless @client
 				@uri = full_uri ? @uri.split(@client.instance_variable_get(:@cloud_url))[1] : @uri
 
-				response = @client.get( @uri)
+				response = @client.get(@uri, params)
 				
 				if response['data'].is_a?(Array) 
 					client = @client
