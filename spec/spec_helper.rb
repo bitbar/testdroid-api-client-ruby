@@ -1,4 +1,6 @@
 gem 'rspec', '~> 2.4'
+gem 'faraday', '~> 0.9'
+
 require 'rspec'
 require 'json'
 require_relative '../lib/testdroid-api-client'
