@@ -70,7 +70,7 @@ module TestdroidAPI
 			end
 			 JSON.parse(resp.body)
 		end		  
-		def get(uri, params={}) 
+		def get(uri, params={})  
 				
 				@logger.error "token expired" if @token.expired?
 				
