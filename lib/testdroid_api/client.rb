@@ -25,7 +25,12 @@ module TestdroidAPI
 			 label_groups = TestdroidAPI::LabelGroups.new( "/#{API_VERSION}/label-groups", self )
 			 label_groups.list
 			 label_groups
-		end 
+		end
+		def devices
+			 devices = TestdroidAPI::Devices.new( "/#{API_VERSION}/devices", self )
+			 devices.list
+			 devices
+		end  
 		def authorize
 
 			@client = OAuth2::Client.new('testdroid-cloud-api', nil, :site => @cloud_url, :authorize_url    => 'oauth/authorize',
