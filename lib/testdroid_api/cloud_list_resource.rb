@@ -15,6 +15,23 @@ module TestdroidAPI
         		
         		@client.get(@uri)['total']
       		end
+      		def list_all()
+      			raise "Can't get a resource list without a REST Client" unless @client
+		
+				response = @client.get("#{@uri}?limit=355043550", {})
+				
+				if response['data'].is_a?(Array) 
+					client = @client
+					class_list = []
+					list_class = self.class
+					instance_uri =  @uri
+					response['data'].each do |val|
+						
+						class_list << @instance_class.new( "#{instance_uri}/#{val[@instance_id_key]}", @client, val)
+					end
+				end
+				class_list	
+      		end
 			def list(params={}, full_uri=false)
 				raise "Can't get a resource list without a REST Client" unless @client
 				@uri = full_uri ? @uri.split(@client.instance_variable_get(:@cloud_url))[1] : @uri
