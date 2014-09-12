@@ -52,7 +52,7 @@ module TestdroidAPI
 		end
 		def upload(uri, filename, file_type) 
 				begin 
-
+					@token.refresh! if @token.expired
 					connection = @token.client.connection
 					payload = {:file  => Faraday::UploadIO.new(filename, file_type) }
 					headers = ACCEPT_HEADERS.merge(@token.headers)
@@ -65,7 +65,7 @@ module TestdroidAPI
 		end
 		def post(uri, params) 
 		
-			@token = @client.password.get_token(@username, @password) if  @token.expired?
+			@token.refresh! if  @token.expired?
 
 			begin
 				resp = @token.post("#{@cloud_url}#{uri}", params.merge(:headers => ACCEPT_HEADERS))
@@ -79,7 +79,7 @@ module TestdroidAPI
 				
 				@logger.error "token expired" if @token.expired?
 				
-				@token = @client.password.get_token(@username, @password) if  @token.expired?
+				@token.refresh! if  @token.expired?
 				
 				begin 
 					resp = @token.get(@cloud_url+"#{uri}", params.merge(:headers => ACCEPT_HEADERS))
@@ -93,7 +93,7 @@ module TestdroidAPI
 				
 				@logger.error "token expired" if @token.expired?
 				
-				@token = @client.password.get_token(@username, @password) if  @token.expired?
+				@token.refresh! if  @token.expired?
 				
 				begin 
 					resp = @token.delete(@cloud_url+"#{uri}",  :headers => ACCEPT_HEADERS )
@@ -110,7 +110,8 @@ module TestdroidAPI
 				end
 		end
 		def download(uri, file_name)
-			begin 
+			begin
+				@token.refresh! if  @token.expired? 
 				File.open(file_name, "w+b") do |file|
 					resp = @token.get("#{@cloud_url}/#{uri}", :headers => ACCEPT_HEADERS)
 					file.write(resp.body)
