@@ -52,7 +52,7 @@ module TestdroidAPI
 		end
 		def upload(uri, filename, file_type) 
 				begin 
-					@token.refresh! if @token.expired
+					@token.refresh! if @token.expired?
 					connection = @token.client.connection
 					payload = {:file  => Faraday::UploadIO.new(filename, file_type) }
 					headers = ACCEPT_HEADERS.merge(@token.headers)
