@@ -1,4 +1,5 @@
-gem 'rspec', '~> 2.4'
+gem 'rspec'
+gem 'rspec-collection_matchers'
 gem 'faraday', '~> 0.9'
 
 require 'rspec'

@@ -1,10 +1,9 @@
 
 module TestdroidAPI
-	class Devices < CloudListResource
-	end
-	class Device < CloudResource
+	class Files < CloudResource
 		def	initialize(uri, client, params= {})
-			super uri, client,"device", params
+
+			super uri, client,"fileSets", params
 			@uri, @client = uri, client
 
 		end

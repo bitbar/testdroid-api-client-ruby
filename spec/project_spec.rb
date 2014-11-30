@@ -4,7 +4,7 @@ describe TestdroidAPI::Project do
   before :all do
     
     VCR.use_cassette('p_oauth2_auth') do
-      @user = client.authorize
+      @user = client.client_local_host
     end
   end
   it 'initialize from JSON object' do
@@ -18,13 +18,13 @@ describe TestdroidAPI::Project do
   it 'get projects using client' do 
     
     VCR.use_cassette('p_all_projects') do
-      @user.projects.list.should have(2).projects
+      @user.projects.list.length.should eq(2)
     end
   end
   it 'get project using id' do 
     
     VCR.use_cassette('p_project_id_33029366') do
-      @user.projects.get(33029366).common.should be_false
+      @user.projects.get(33029366).common.should be_falsey
       @user.projects.get(33029366).id.should be 33029366
     end
   end
