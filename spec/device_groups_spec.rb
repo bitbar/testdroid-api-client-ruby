@@ -12,7 +12,7 @@ describe TestdroidAPI::DeviceGroup do
     VCR.use_cassette('dg_all_device_groups') do
       
       device_groups = @user.device_groups
-      device_groups.total.should eq(1) 
+      expect(device_groups.total).to eq(1) 
       
     end
   end
@@ -20,8 +20,8 @@ describe TestdroidAPI::DeviceGroup do
     
      VCR.use_cassette('dg_device_group_4165') do
       device_group_4165 = @user.device_groups.get(4165)
-      device_group_4165.id.should eq(4165) 
-      device_group_4165.display_name.should eq("testi grouppen")
+      expect(device_group_4165.id).to eq(4165) 
+      expect(device_group_4165.display_name).to eq("testi grouppen")
       
      end
    end

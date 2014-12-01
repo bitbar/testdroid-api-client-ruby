@@ -13,7 +13,7 @@ require 'testdroid_api/labels'
 require 'testdroid_api/files'
 require 'testdroid_api/devices'
 require 'testdroid_api/device_sessions'
-
+require 'testdroid_api/file_sets'
 
 require 'oauth2'
 require 'logger'

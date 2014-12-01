@@ -24,6 +24,11 @@ module TestdroidAPI
 			set_up_properties_from(@client.get(@uri))
 			self.send method, *args
 		end
+		def update(params = {})
+        	raise "Can't update a resource without a REST Client" unless @client
+        	set_up_properties_from(@client.post(@uri, params))
+        	self
+      	end
 		def set_up_properties_from(hash)
 
 			eigenclass = class << self; self; end

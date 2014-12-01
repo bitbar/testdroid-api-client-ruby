@@ -12,14 +12,14 @@ describe TestdroidAPI::DeviceRun do
 
     VCR.use_cassette('dr_run_33044722_device_runs') do
      
-      @user.projects.get(33029366).runs.get(33044722).device_runs.should_not be nil
+      expect(@user.projects.get(33029366).runs.get(33044722).device_runs).not_to be_nil
     
     end
   end
    it 'get device run using id' do 
     
      VCR.use_cassette('dr_device_run_33044722') do
-        @user.projects.get(33029366).runs.get(33044722).device_runs.get(33044966).id.should be 33044966
+        expect(@user.projects.get(33029366).runs.get(33044722).device_runs.get(33044966).id).to be(33044966)
      end
    end
 end

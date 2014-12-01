@@ -15,7 +15,7 @@ describe TestdroidAPI::LabelGroups do
       p 'ssdlksldklskdls'
       p label_groups
       
-      label_groups.total.should eq(13) 
+      expect(label_groups.total).to be(13) 
       
     end
   end
@@ -23,8 +23,8 @@ describe TestdroidAPI::LabelGroups do
     
      VCR.use_cassette('lg_label_group_1058800') do
       label_group_1058800 = client.label_groups.get(1058800)
-      label_group_1058800.id.should eq(1058800) 
-      label_group_1058800.display_name.should eq("API Level")
+      expect(label_group_1058800.id).to be(1058800) 
+      expect(label_group_1058800.display_name).to eq("API Level")
       
      end
    end

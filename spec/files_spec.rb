@@ -11,7 +11,7 @@ describe TestdroidAPI::Files do
     project33029366 = nil
     VCR.use_cassette('f_android_app_file') do
        project33029366 =  @user.projects.get(100800)
-       project33029366.files.app.should_not eq nil
+       expect(project33029366.files.app).to_not be_nil
       
     end
   end
@@ -20,7 +20,7 @@ describe TestdroidAPI::Files do
     VCR.use_cassette('f_get_project_33029366') do
       
       project33029366 =  @user.projects.get(100800)
-      project33029366.should_not eq nil
+      expect(project33029366).to_not be_nil
     end
     VCR.use_cassette('f_upload_files') do
       file_name = 'apk.apk'

@@ -10,14 +10,14 @@ describe TestdroidAPI::Run do
   it 'get runs' do 
     
     VCR.use_cassette('r_all_project_33029366_runs') do
-      @user.projects.get(33029366).runs.list.should_not be nil
+      expect(@user.projects.get(33029366).runs.list).to_not be_nil
       
     end
   end
   it 'get run using id' do 
     
      VCR.use_cassette('r_run_171221') do
-      @user.projects.get(33029366).runs.get(33044722).id.should == 33044722 
+      expect(@user.projects.get(33029366).runs.get(33044722).id).to be 33044722 
      end
   end
   it 'delete run using id' do 

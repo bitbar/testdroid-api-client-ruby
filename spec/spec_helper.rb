@@ -1,6 +1,6 @@
 gem 'rspec'
 gem 'rspec-collection_matchers'
-gem 'faraday', '~> 0.9'
+gem 'faraday', '~> 0.8.8'
 
 require 'rspec'
 require 'json'
