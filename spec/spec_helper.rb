@@ -26,9 +26,9 @@ def client
 	rescue Exception => e
 	end
 end
-def client_local_host 
+def client_local_host(local_cloud='http://localhost:8080/testdroid-cloud') 
 	@client_local_host ||= begin
-		client_local_host = Client.new('admin@localhost', 'admin', 'http://localhost:8080/testdroid-cloud')
+		client_local_host = Client.new('admin@localhost', 'admin', local_cloud)
 	rescue Exception => e
 	end
 end
