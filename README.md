@@ -31,6 +31,12 @@ project123 = @user.projects.get(project_id)
 p "Project name #{project123.name}"
 ```
 
+## Get project by name
+```ruby
+android_project = @user.projects.list.detect {|project| project.name.casecmp("Android Project") == 0 }
+```
+
+
 ## Start project
 ```ruby
 test_run = project123.run
@@ -58,17 +64,30 @@ os_v2_1 =  client.label_groups.get(lg_android_versions.id).labels.list.detect {|
 #get spefici device from devices list        
 lenovo_a820 = devices.list.detect {|d| d.display_name == "Lenovo A820"}
        
-       
 ```
+
+
 Device Sessions
 ----
-```
-To create a new device session: 
-device_session = user.device_sessions.create({:params =>  {'deviceModelId' => '1'}})
+```ruby
+#create a new device session: 
+device_session = @user.device_sessions.create({:params =>  {'deviceModelId' => '1'}})
 
-To release device session: 
+#release device session: 
 device_session.release()
 
 ```
+
+
+Project configuration
+----
+```ruby
+#get project and update project configuration
+android_project = @user.projects.list.detect {|project| project.name.casecmp("Android Project") == 0 }
+android_project.config.update({:params => {'instrumentationRunner' => 'abc'}})
+#See full list of params: http://docs.testdroid.com/_pages/client.html#update-project-config
+
+```
+
 
 See https://cloud.testdroid.com/swagger/index.html for more details about API V2
