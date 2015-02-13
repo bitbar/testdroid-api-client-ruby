@@ -73,6 +73,9 @@ module TestdroidAPI
 				@logger.error "Failed to post resource #{uri} #{e}"
 				return nil
 			end
+			
+			if resp.body.nil? return nil
+			
 			JSON.parse(resp.body)
 		end
 		def get(uri, params={})

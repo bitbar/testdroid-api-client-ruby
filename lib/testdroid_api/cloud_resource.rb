@@ -71,7 +71,7 @@ module TestdroidAPI
 		end
 		def delete
 			raise "Can't delete a resource without a REST Client" unless @client
-			client.delete(@uri)
+			@client.delete(@uri)
 		end
 	end
 end
