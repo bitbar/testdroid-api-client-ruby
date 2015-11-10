@@ -15,6 +15,7 @@ require 'testdroid_api/devices'
 require 'testdroid_api/device_sessions'
 require 'testdroid_api/file_sets'
 require 'testdroid_api/config'
+require 'testdroid_api/parameters'
 
 require 'oauth2'
 require 'logger'
