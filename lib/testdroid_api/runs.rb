@@ -7,5 +7,8 @@ module TestdroidAPI
 			@uri, @client = uri, client
 			sub_items :device_runs
 		end
+		def abort()
+      		resp = @client.post("#{@uri}/abort", params= {})
+	    end
 	end
 end
