@@ -9,7 +9,6 @@ module TestdroidAPI
 		end
 		def release
 			resp = @client.post("#{@uri}/release", params= {})
-			DeviceSession.new("#{@uri}", @client, resp)
 		end
 	end
 end
