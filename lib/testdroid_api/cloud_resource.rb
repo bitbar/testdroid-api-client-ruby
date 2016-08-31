@@ -48,6 +48,8 @@ module TestdroidAPI
 			set_up_properties_from(@client.get(@uri))
 			self
 		end
+        alias_method :load, :refresh
+        
 		def download_file(file_resource_name, target_file_name=nil)
 			raise "Can't refresh a resource without a REST Client" unless @client
 			target_file_name = file_resource_name unless target_file_name

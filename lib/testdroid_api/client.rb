@@ -109,26 +109,38 @@ module TestdroidAPI
 			end
 		end
         
-        # User-only API resources
         
-        def me
-            TestdroidAPI::User.new( "/#{API_VERSION}/me", self ).refresh
+        # Resources
+        
+        # public read-only
+        
+        def info
+            TestdroidAPI::CloudResource.new( "/#{API_VERSION}/info", self, "info")
         end
         
-        
-        # Public API resources
+		def devices
+			TestdroidAPI::Devices.new( "/#{API_VERSION}/devices", self )
+		end
         
 		def label_groups
-			label_groups = TestdroidAPI::LabelGroups.new( "/#{API_VERSION}/label-groups", self )
-			label_groups.list
-			label_groups
+			TestdroidAPI::LabelGroups.new( "/#{API_VERSION}/label-groups", self )
 		end
         
-		def devices
-			devices = TestdroidAPI::Devices.new( "/#{API_VERSION}/devices", self )
-			devices.list
-			devices
-		end
+        # user read-write
+
+        def me
+            TestdroidAPI::User.new( "/#{API_VERSION}/me", self ).load
+        end
+        
+        def properties
+            TestdroidAPI::Properties.new( "/#{API_VERSION}/properties", self )
+        end
+        
+        def device_session_connections
+            TestdroidAPI::DeviceSessionConnections.new( "/#{API_VERSION}/device-session-connections", self )
+        end
+        
+
         
 	end
 end
