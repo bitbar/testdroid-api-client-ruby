@@ -1,7 +1,7 @@
 
 module TestdroidAPI
 	class CloudResource
-		def initialize(uri, client,  resource_name=nil, params= {})
+		def initialize(uri, client, resource_name=nil, params= {})
 
 			@uri, @client, @resource_name = uri, client, resource_name
 			set_up_properties_from( params )
