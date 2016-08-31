@@ -15,7 +15,7 @@ module TestdroidAPI
 
 			@client.get(@uri)['total']
 		end
-		def create(params={})
+		def create(params={}, http_params={})
 			raise "Can't create a resource without a REST Client" unless @client
 			response = @client.post @uri, params
 			@instance_class.new "#{@uri}/#{response[@instance_id_key]}", @client,
@@ -24,7 +24,7 @@ module TestdroidAPI
 		def list_all()
 			raise "Can't get a resource list without a REST Client" unless @client
 
-			response = @client.get("#{@uri}?limit=355043550", {})
+			response = @client.get(@uri, { :limit => 0 })
 
 			if response['data'].is_a?(Array)
 				client = @client

@@ -13,7 +13,7 @@ module TestdroidAPI
 				@client.logger.error( "Invalid filename")
 				return
 			end
-			reply = @client.upload("#{@uri}/application", filename, mime_type)
+			reply = @client.upload("#{@uri}/application", filename)
 
 			Application.new(nil, nil, reply)
 		end
@@ -22,7 +22,7 @@ module TestdroidAPI
 				@client.logger.error( "Invalid filename")
 				return
 			end
-			reply = @client.upload("#{@uri}/data", filename, mime_type)
+			reply = @client.upload("#{@uri}/data", filename)
 
 			Data.new(nil, nil, reply)
 		end
@@ -31,7 +31,7 @@ module TestdroidAPI
 				@client.logger.error( "Invalid filename")
 				return
 			end
-			reply = @client.upload("#{@uri}/test", filename, mime_type)
+			reply = @client.upload("#{@uri}/test", filename)
 
 			Test.new(nil, nil, reply)
 		end

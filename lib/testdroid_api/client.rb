@@ -11,7 +11,7 @@ module TestdroidAPI
 		def initialize(api_key, cloud_url = CLOUD_ENDPOINT, logger = nil)
 			# Instance variables
 			@api_key = api_key
-			@cloud_url = cloud_url + "/" + API_VERSION + "/"
+			@cloud_url = cloud_url
 			@logger = logger
 
 			if @logger.nil?
@@ -22,24 +22,26 @@ module TestdroidAPI
         
         # Basic methods
         
-        def request_factory(method, uri, params)
-            default_params =
+        def request_factory(method, uri, http_params = {})
+            default_http_params = {
                 :method => method,
                 :url => uri,
                 :user => @api_key,
                 :password => "",
                 :headers => ACCEPT_HEADERS
-                
-            request_params = default_params.deep_merge!(params)
+            }
+            request_http_params = default_http_params.deep_merge!(http_params)
         
-            RestClient::Request.new(request_params)      
+            RestClient::Request.new(request_http_params)      
         end
         
-		def get(uri, params={})
+		def get(uri, params={}, http_params={})
 			begin
-				request = self.request_factory(:get, @cloud_url+"#{uri}", params)
+                http_params = http_params.deep_merge({
+                    :headers => { :params => params }
+                })
+				request = self.request_factory(:get, @cloud_url+"#{uri}", http_params)
                 resp = request.execute
-                
 			rescue => e
 				@logger.error "Failed to get resource #{uri} #{e}"
 				return nil
@@ -47,10 +49,13 @@ module TestdroidAPI
 			JSON.parse(resp.body)
 		end
         
-		def post(uri, params)
-
+		def post(uri, params={}, http_params={})
 			begin
-				resp = @token.post("#{@cloud_url}#{uri}", params.merge(:headers => ACCEPT_HEADERS))
+                http_params = http_params.deep_merge({
+                    :payload => params
+                })
+				request = self.request_factory(:post, @cloud_url+"#{uri}", http_params)
+                resp = request.execute
 			rescue => e
 				@logger.error "Failed to post resource #{uri} #{e}"
 				return nil
@@ -66,7 +71,8 @@ module TestdroidAPI
 		def delete(uri)
 
 			begin
-				resp = @token.delete(@cloud_url+"#{uri}",  :headers => ACCEPT_HEADERS )
+				request = self.request_factory(:delete, @cloud_url+"#{uri}")
+                resp = request.execute
 			rescue => e
 				@logger.error "Failed to delete resource #{uri} #{e}"
 				return nil
@@ -80,24 +86,21 @@ module TestdroidAPI
 			end
 		end
         
-		def upload(uri, filename, file_type)
-			begin
-				connection = @token.client.connection
-				payload = {:file  => Faraday::UploadIO.new(filename, file_type) }
-				headers = ACCEPT_HEADERS.merge(@token.headers)
-				response = connection.post(@cloud_url+"#{uri}",payload, headers)
-			rescue => e
-				@logger.error e
-				return nil
-			end
-			JSON.parse(response.body)
+		def upload(uri, file_name)
+			self.post(uri, {
+                :multipart => true,
+                :file => File.new(file_name, 'rb')
+            })
 		end
         
-		def download(uri, file_name)
+		def download(uri, file_name, params={}, http_params={})
 			begin
-				@token = @token.refresh!(:headers => ACCEPT_HEADERS) if  @token.expired?
 				File.open(file_name, "w+b") do |file|
-					resp = @token.get("#{@cloud_url}/#{uri}", :headers => ACCEPT_HEADERS)
+                    http_params = http_params.deep_merge({
+                        :headers => { :params => params }
+                    })
+                    request = self.request_factory(:get, @cloud_url+"#{uri}", http_params)
+                    resp = request.execute
 					file.write(resp.body)
 				end
 			rescue => e
@@ -105,6 +108,13 @@ module TestdroidAPI
 				return nil
 			end
 		end
+        
+        # User-only API resources
+        
+        def me
+            TestdroidAPI::User.new( "/#{API_VERSION}/me", self ).refresh
+        end
+        
         
         # Public API resources
         
