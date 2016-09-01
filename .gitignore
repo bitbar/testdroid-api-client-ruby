@@ -19,3 +19,6 @@ sample/test.rb
 _yardoc
 doc/
 .DS_Store
+
+# IDE
+.idea
