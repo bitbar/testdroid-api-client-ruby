@@ -5,8 +5,8 @@ module TestdroidAPI
       @uri, @client = uri, client
     end
 
-    def devices(params = {})
-      Devices.new(@uri+"/devices", @client)
+    def device_statuses
+      DeviceStatuses.new(@uri+"/device/statuses", @client)
     end
 
   end
