@@ -133,6 +133,12 @@ module TestdroidAPI
       TestdroidAPI::DeviceSessionConnections.new("/#{API_VERSION}/device-session-connections", self)
     end
 
+    # admin only
+
+    def admin
+      TestdroidAPI::Admin.new("/#{API_VERSION}/admin", self)
+    end
+
 
   end
 end

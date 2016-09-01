@@ -4,7 +4,7 @@ module TestdroidAPI
     def initialize(uri, client, instance_class=nil)
       @uri, @client = uri, client
       resource_name = self.class.name.split('::')[-1]
-      @instance_class = instance_class.nil? ? TestdroidAPI.const_get resource_name.chop : instance_class
+      @instance_class = instance_class.nil? ? TestdroidAPI.const_get(resource_name.chop) : instance_class
       @list_key, @instance_id_key = resource_name.gsub!(/\b\w/) { $&.downcase }, 'id'
     end
 
