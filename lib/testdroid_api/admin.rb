@@ -6,7 +6,19 @@ module TestdroidAPI
     end
 
     def device_statuses
-      DeviceStatuses.new(@uri+"/device/statuses", @client)
+      AdminDeviceStatuses.new(@uri+"/device/statuses", @client)
+    end
+
+    def device_problems
+      AdminDeviceProblems.new(@uri+"/device-problems", @client)
+    end
+
+    def device_models
+      AdminDeviceModels.new(@uri+"/device-models", @client)
+    end
+
+    def devices
+      AdminDevices.new(@uri+"/devices", @client)
     end
 
   end
