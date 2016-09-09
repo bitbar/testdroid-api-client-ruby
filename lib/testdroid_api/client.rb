@@ -36,9 +36,10 @@ module TestdroidAPI
     end
 
     def get(uri, params={}, http_params={})
+      uri = @cloud_url+uri
       begin
         http_params = http_params.deep_merge({ :headers => {:params => params} })
-        request = self.request_factory(:get, @cloud_url+"#{uri}", http_params)
+        request = self.request_factory(:get, uri, http_params)
         resp = request.execute
       rescue => e
         @logger.error "Failed to get resource #{uri} #{e}"
@@ -48,9 +49,10 @@ module TestdroidAPI
     end
 
     def post(uri, params={}, http_params={})
+      uri = @cloud_url+uri
       begin
         http_params = http_params.deep_merge({ :payload => params })
-        request = self.request_factory(:post, @cloud_url+"#{uri}", http_params)
+        request = self.request_factory(:post, uri, http_params)
         resp = request.execute
       rescue => e
         @logger.error "Failed to post resource #{uri} #{e}"
@@ -65,8 +67,9 @@ module TestdroidAPI
     end
 
     def delete(uri)
+      uri = @cloud_url+uri
       begin
-        request = self.request_factory(:delete, @cloud_url+"#{uri}")
+        request = self.request_factory(:delete, uri)
         resp = request.execute
       rescue => e
         @logger.error "Failed to delete resource #{uri} #{e}"
