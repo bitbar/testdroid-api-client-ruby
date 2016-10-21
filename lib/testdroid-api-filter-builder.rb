@@ -37,7 +37,7 @@ module TestdroidAPI
       end
 
       # auto-check type
-      unless type.nil?
+      if type.nil?
         value.each do |val|
           next if val.nil?
           type = check_type(val)
