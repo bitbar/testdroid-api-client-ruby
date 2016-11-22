@@ -11,9 +11,14 @@ spec/reports
 test/tmp
 test/version_tmp
 tmp
+sample/*.apk
+sample/test.rb
 
 # YARD artifacts
 .yardoc
 _yardoc
 doc/
 .DS_Store
+
+# IDE
+.idea
