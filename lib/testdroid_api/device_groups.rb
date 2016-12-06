@@ -8,5 +8,9 @@ module TestdroidAPI
 			@uri, @client = uri, client
 		end
 
+    def devices
+      return Devices.new("#{@uri}/devices", @client)
+    end
+
 	end
 end
