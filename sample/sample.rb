@@ -1,12 +1,14 @@
 require 'testdroid-api-client'
 
-client = TestdroidAPI::ApikeyClient.new(ENV['TESTDROID_APIKEY'])
+client = TestdroidAPI::Client.new(ENV['TESTDROID_USERNAME'],ENV['TESTDROID_PASSWORD'])
+#or using api key:
+#client = TestdroidAPI::ApikeyClient.new(ENV['TESTDROID_APIKEY'])
 #to use private cloud specify cloud url as:
 #client = TestdroidAPI::Client.new('API_KEY', 'https://customer.testdroid.com')
-user = client.me
+user = client.authorize
 
 # Create Android project
-android_project = user.projects.create({:name => "Android robotium", :type => "ANDROID"})
+android_project = user.projects.create({:name => "Android instrumentation", :type => "ANDROID"})
 
 # Create iOS project
 ios_project = user.projects.create({:name => "iOS project", :type => "IOS"})
