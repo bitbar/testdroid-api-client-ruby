@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name               = "testdroid-api-client"
-  s.version            = "0.3.0"
+  s.version            = "0.3.1"
 
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec-collection_matchers"
   s.add_development_dependency "vcr",  '~> 2.9'
   s.add_development_dependency "webmock", '~> 1.9'
-  s.add_development_dependency "yard", '~> 0.8'
+  s.add_development_dependency "yard", '~> 0.9.12'
 
   if s.respond_to? :specification_version then
     s.specification_version = 3

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    testdroid-api-client (0.3.0)
+    testdroid-api-client (0.3.1)
       deep_merge (~> 1.1, >= 1.1.1)
       faraday (~> 0.8.8, >= 0.8.8)
       oauth2 (~> 0.9)
@@ -69,7 +69,7 @@ GEM
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff
-    yard (0.9.5)
+    yard (0.9.12)
 
 PLATFORMS
   ruby
@@ -82,7 +82,7 @@ DEPENDENCIES
   testdroid-api-client!
   vcr (~> 2.9)
   webmock (~> 1.9)
-  yard (~> 0.8)
+  yard (~> 0.9.12)
 
 BUNDLED WITH
    1.11.2
