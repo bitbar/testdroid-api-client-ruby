@@ -52,6 +52,32 @@ p "Project state #{test_run.state}"
 test_run.device_runs.list({:params => {:limit => 100}}).each { |drun| drun.download_logs("#{drun.id}_log") }
 ```
 
+## Get input files from project
+```ruby
+files = project123.files
+files.list({:limit => 0}).each { |f| puts "File id: #{f.id} name: #{f.name}" }
+```
+## Get all input files
+```ruby
+files = user.files
+files.list({:limit => 40,:filter => "s_direction_eq_INPUT"}).each { 
+    |f| puts "File id: #{f.id} name: #{f.name}" }
+```
+
+## Delete input files older than 60days
+```ruby
+puts "deleting all input files older than 60 days - #{Time.at(Time.now.to_i  - ( 60 * 24 * 3600)    ).to_datetime}"
+        
+files.list({:limit => 40,:filter => "s_direction_eq_INPUT"}).each do |f|    
+    if( f.create_time/1000 < (Time.now.to_i  - ( 60 * 24 * 3600) ))
+        Time.at(Time.now.to_i  - (1000 * 60 * 24 * 3600)).to_datetime
+        puts "Deleted file #{f.name}  created at #{Time.at(f.create_time/1000).to_datetime} "
+        f.delete
+    end
+end
+```
+
+
 ## Using device labels
 ```ruby
 #Get label for android os version 2.1
