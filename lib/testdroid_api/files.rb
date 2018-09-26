@@ -1,7 +1,9 @@
 module TestdroidAPI
-  class Files < CloudResource
+  class Files < CloudListResource
+  end
+  class File < CloudResource
     def initialize(uri, client, params= {})
-      super uri, client, "files", params
+      super uri, client, "file", params
       @uri, @client = uri, client
     end
 
