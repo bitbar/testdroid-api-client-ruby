@@ -39,7 +39,7 @@ GEM
       multi_xml (~> 0.5)
       rack (~> 1.2)
     public_suffix (2.0.4)
-    rack (1.6.5)
+    rack (1.6.11)
     rake (11.3.0)
     rest-client (2.0.0)
       http-cookie (>= 1.0.2, < 2.0)
