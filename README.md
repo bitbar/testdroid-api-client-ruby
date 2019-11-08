@@ -1,6 +1,5 @@
 Testdroid API Client for Ruby
-=========================
-
+=============================
 
 ## Installation
 
@@ -12,17 +11,20 @@ gem "testdroid-api-client"
 ```bash
 > bundle install
 ```
+
 ## Sample client usage - Authenticate
 ```ruby
 require 'testdroid-api-client'
 
 client = TestdroidAPI::Client.new('admin@localhost', 'admin')
 ```
+
 ## Sample usage - get projects
 ```ruby
  @user = client.authorize
  projects = @user.projects.list
 ```
+
 ## Get project by id
 ```ruby
 project_id = 123
@@ -33,87 +35,44 @@ p "Project name #{project123.name}"
 
 ## Get project by name
 ```ruby
-android_project = @user.projects.list.detect {|project| project.name.casecmp("Android Project") == 0 }
+project = @user.projects.list({:filter => "s_name_eq_MyProject"})[0]
 ```
 
-
-## Start project
+## Get available frameworks
 ```ruby
-test_run = project123.run
+frameworks = @user.available_frameworks.list
 ```
 
-## Check test run status
+## Find specific framework
 ```ruby
-p "Project state #{test_run.state}"
-
-```
-## Download all logs from test run
-```ruby
-test_run.device_runs.list({:params => {:limit => 100}}).each { |drun| drun.download_logs("#{drun.id}_log") }
+framework = @user.available_frameworks.list({:filter => "s_osType_eq_ANDROID;s_name_like_%Instrumentation"})[0]
 ```
 
-## Get input files from project
+## Upload files
 ```ruby
-files = project123.files
-files.list({:limit => 0}).each { |f| puts "File id: #{f.id} name: #{f.name}" }
+file_app = @user.files.upload(File.join(File.dirname(__FILE__), "BitbarSampleApp.apk"))
+file_test = @user.files.upload(File.join(File.dirname(__FILE__), "BitbarSampleAppTest.apk"))
 ```
+
+## Start test run
+```ruby
+test_run = @user.runs.create("{\"osType\": \"ANDROID\", \"projectId\": #{project.id}, \"frameworkId\":#{framework_id},
+  \"deviceIds\": #{id_list}, \"files\": [{\"id\": #{file_app.id}, \"action\": \"INSTALL\" },
+  {\"id\": #{file_test.id}, \"action\": \"RUN_TEST\" }]}")
+
+#See full list of params: https://docs.bitbar.com/testing/api/tests/index.html#details-about-the-configuration-fields
+```
+
+## Download all files from test run
+```ruby
+test_run.device_sessions.list({:limit => 0}).each { |ds| ds.download_all_files("YOUR_PATH") }
+```
+
 ## Get all input files
 ```ruby
-files = user.files
+files = @user.files
 files.list({:limit => 40,:filter => "s_direction_eq_INPUT"}).each { 
     |f| puts "File id: #{f.id} name: #{f.name}" }
 ```
 
-## Delete input files older than 60days
-```ruby
-puts "deleting all input files older than 60 days - #{Time.at(Time.now.to_i  - ( 60 * 24 * 3600)    ).to_datetime}"
-        
-files.list({:limit => 40,:filter => "s_direction_eq_INPUT"}).each do |f|    
-    if( f.create_time/1000 < (Time.now.to_i  - ( 60 * 24 * 3600) ))
-        Time.at(Time.now.to_i  - (1000 * 60 * 24 * 3600)).to_datetime
-        puts "Deleted file #{f.name}  created at #{Time.at(f.create_time/1000).to_datetime} "
-        f.delete
-    end
-end
-```
-
-
-## Using device labels
-```ruby
-#Get label for android os version 2.1
-lg_android_version_2_1 = client.label_groups.list.detect {|lg| lg.display_name.casecmp("android version") == 0 }
-
-os_v2_1 =  client.label_groups.get(lg_android_versions.id).labels.list.detect {|l| l.display_name.casecmp("2.1") == 0 }
-        
- #get all devices with android os level 2.1
- devices = client.label_groups.get(lg_android_versions.id).labels.get(os_v2_1.id).devices
-#get spefici device from devices list        
-lenovo_a820 = devices.list.detect {|d| d.display_name == "Lenovo A820"}
-       
-```
-
-
-Device Sessions
-----
-```ruby
-#create a new device session: 
-device_session = @user.device_sessions.create({:params =>  {'deviceModelId' => '1'}})
-
-#release device session: 
-device_session.release()
-
-```
-
-
-Project configuration
-----
-```ruby
-#get project and update project configuration
-android_project = @user.projects.list.detect {|project| project.name.casecmp("Android Project") == 0 }
-android_project.config.update({:params => {'instrumentationRunner' => 'abc'}})
-#See full list of params: http://docs.testdroid.com/_pages/client.html#update-project-config
-
-```
-
-
-See https://cloud.testdroid.com/swagger/index.html for more details about API V2
+See https://cloud.bitbar.com/cloud/swagger-ui.html for more details about API V2

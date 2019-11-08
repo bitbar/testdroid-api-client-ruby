@@ -5,7 +5,7 @@ module TestdroidAPI
     end
   end
   class Property < CloudResource
-    def initialize(uri, client, params= {})
+    def initialize(uri, client, params = {})
       super uri, client, "property", params
     end
 

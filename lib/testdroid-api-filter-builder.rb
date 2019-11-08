@@ -49,7 +49,7 @@ module TestdroidAPI
         end
       end
 
-      # check nil existance
+      # check nil existence
       if check_nil
         is_nil = false
         value.each do |val|

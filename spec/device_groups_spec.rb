@@ -2,27 +2,40 @@ require 'spec_helper'
 require 'json'
 describe TestdroidAPI::DeviceGroup do
   before :all do
-    VCR.use_cassette('dg_oauth2_auth_device_groups') do
-      @user = client.authorize
+    VCR.use_cassette(File.basename(__FILE__).split('_spec')[0] + '_authorize') do
+      @user = client_local_host.authorize
     end
   end
-  
-  it 'get device groups' do 
 
-    VCR.use_cassette('dg_all_device_groups') do
-      
-      device_groups = @user.device_groups
-      expect(device_groups.total).to eq(1) 
-      
+  DG_ID = nil
+
+  it 'create device group' do
+    VCR.use_cassette(File.basename(__FILE__).split('_spec')[0] + '_create') do
+      device_group = @user.device_groups.create({:params => {:displayName => 'Empty'}})
+      DG_ID = device_group.id
     end
   end
-   it 'get device group using id' do 
-    
-     VCR.use_cassette('dg_device_group_4165') do
-      device_group_4165 = @user.device_groups.get(4165)
-      expect(device_group_4165.id).to eq(4165) 
-      expect(device_group_4165.display_name).to eq("testi grouppen")
-      
-     end
-   end
+
+  it 'get device groups' do
+    VCR.use_cassette(File.basename(__FILE__).split('_spec')[0] + '_get_all') do
+      device_groups = @user.device_groups
+      expect(device_groups.total).to satisfy { |n| n > 0 }
+    end
+  end
+
+  it 'get device group using id' do
+    VCR.use_cassette(File.basename(__FILE__).split('_spec')[0] + '_get_one') do
+      device_group = @user.device_groups.get(DG_ID)
+      expect(device_group.id).to eq(DG_ID)
+      expect(device_group.display_name).to eq("Empty")
+
+    end
+  end
+
+  it 'delete device group' do
+    VCR.use_cassette(File.basename(__FILE__).split('_spec')[0] + '_delete') do
+      @user.device_groups.get(DG_ID).delete
+    end
+  end
+
 end

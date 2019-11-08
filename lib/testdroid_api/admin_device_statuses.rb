@@ -5,7 +5,7 @@ module TestdroidAPI
     end
   end
   class AdminDeviceStatus < CloudResource
-    def initialize(uri, client, params= {})
+    def initialize(uri, client, params = {})
       super uri, client, "adminDeviceStatus", params
     end
   end
