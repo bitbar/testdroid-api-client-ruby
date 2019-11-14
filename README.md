@@ -1,3 +1,7 @@
+[![Gem Version](https://badge.fury.io/rb/testdroid-api-client.svg)](https://badge.fury.io/rb/testdroid-api-client)
+[![Build Status](https://travis-ci.org/bitbar/testdroid-api-client-ruby.svg?branch=master)](https://travis-ci.org/bitbar/testdroid-api-client-ruby)
+
+
 Testdroid API Client for Ruby
 =============================
 
