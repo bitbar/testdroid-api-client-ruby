@@ -2,7 +2,7 @@ module TestdroidAPI
   class Services < CloudListResource
   end
   class Service < CloudResource
-    def initialize(uri, client, params= {})
+    def initialize(uri, client, params = {})
       super uri, client, "service", params
     end
 

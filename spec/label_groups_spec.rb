@@ -2,53 +2,46 @@ require 'spec_helper'
 require 'json'
 describe TestdroidAPI::LabelGroups do
   before :all do
-    VCR.use_cassette('lg_oauth2_auth_label_groups') do
-      @user = client.authorize
+    VCR.use_cassette(File.basename(__FILE__).split('_spec')[0] + '_authorize') do
+      @user = client_local_host.authorize
     end
   end
-  
-  it 'get label groups' do 
-    
-    VCR.use_cassette('lg_all_label_groups') do
-      
-      label_groups = client.label_groups
-      p 'ssdlksldklskdls'
-      p label_groups
-      
-      expect(label_groups.total).to be(13) 
-      
+
+  it 'get label groups' do
+    VCR.use_cassette(File.basename(__FILE__).split('_spec')[0] + '_get_all') do
+      label_groups = client_local_host.label_groups
+      expect(label_groups.total).to satisfy { |n| n > 0 }
     end
   end
-  it 'get label group using id' do  
-    
-     VCR.use_cassette('lg_label_group_1058800') do
-      label_group_1058800 = client.label_groups.get(1058800)
-      expect(label_group_1058800.id).to be(1058800) 
-      expect(label_group_1058800.display_name).to eq("API Level")
-      
-     end
-   end
-   it 'get labels from label group using id' do 
-    
-     VCR.use_cassette('lg_labels_of_group_1058800') do
-      client.label_groups.get(1058800).labels
-      
-     end
-   end
-   it ' get resources by label' do
-      VCR.use_cassette('lg_get_resources_by_label') do
 
-        lg_android_versions = client.label_groups.list.detect {|lg| lg.display_name.casecmp("android version") == 0 }
+  LG_ID = nil
 
-        os_v2_1 =  client.label_groups.get(lg_android_versions.id).labels.list.detect {|l| l.display_name.casecmp("2.1") == 0 }
-        
-        #get all devices with android os level 2.1
-        devices = client.label_groups.get(lg_android_versions.id).labels.get(os_v2_1.id).devices
-        lenovo_a820 = devices.list.detect {|d| d.display_name == "Lenovo A820"}
-        expect(lenovo_a820.display_name).to eq("Lenovo A820")
-        
-        
-     end
-   end
+  it 'create label group' do
+    VCR.use_cassette(File.basename(__FILE__).split('_spec')[0] + '_create') do
+      label_group = client_local_host.label_groups.create({:params => {:displayName => 'Empty', :name => 'empty'}})
+      LG_ID = label_group.id
+    end
+  end
+
+  it 'get label group using id' do
+    VCR.use_cassette(File.basename(__FILE__).split('_spec')[0] + '_get_one') do
+      label_group = client_local_host.label_groups.get(LG_ID)
+      expect(label_group.id).to be(LG_ID)
+      expect(label_group.display_name).to eq("Empty")
+    end
+  end
+
+  it 'get labels from label group using id' do
+    VCR.use_cassette(File.basename(__FILE__).split('_spec')[0] + '_get_labels') do
+      labels = client_local_host.label_groups.get(LG_ID).labels
+      expect(labels.total).to eq(0)
+    end
+  end
+
+  it 'delete label group' do
+    VCR.use_cassette(File.basename(__FILE__).split('_spec')[0] + '_delete') do
+      client_local_host.label_groups.get(LG_ID).delete
+    end
+  end
 
 end
