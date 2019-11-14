@@ -5,3 +5,4 @@ deploy:
   on:
     tags: true
   gem: testdroid-api-client
+script: bundle exec rspec
