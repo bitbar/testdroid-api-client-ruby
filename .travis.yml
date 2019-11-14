@@ -1,0 +1,7 @@
+deploy:
+  provider: rubygems
+  api_key:
+    secure: ZFKOZzwgB1s4/vD9BDb7lFWCO7xXP3ikG2DBZSdASii5iHM46X9ox2wt8h2XZd9RFKe9pyenJP9RsXmRVGanFgZ0wGu+oveWfA7oIKp6Eb6pNOBPs8MG0ZifAGUc7Ih1JUMuvNuOPRJ+QGc5FwPsu0EoxZn3gQCZNqdMNBRe17o=
+  on:
+    tags: true
+  gem: testdroid-api-client
