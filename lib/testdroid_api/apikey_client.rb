@@ -87,10 +87,10 @@ module TestdroidAPI
         return nil
       end
 
-      if resp.status != 204
+      if resp.code != 204
         @logger.error "Failed to delete resource #{uri} #{e}"
       else
-        @logger.info "response: #{resp.status}"
+        @logger.info "response: #{resp.code}"
       end
     end
 

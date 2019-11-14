@@ -7,7 +7,7 @@ module TestdroidAPI
         return
       end
       file = @client.upload("#{@uri}", filename)
-      File.new(nil, nil, file)
+      File.new("#{@uri}/#{file['id']}", @client, file)
     end
 
   end
