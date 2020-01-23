@@ -1,3 +1,6 @@
+before_install:
+  - yes | gem update --system --force
+  - gem install bundler
 deploy:
   provider: rubygems
   api_key:

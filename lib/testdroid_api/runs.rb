@@ -8,7 +8,7 @@ module TestdroidAPI
   end
   class Run < CloudResource
     def initialize(uri, client, params = {})
-      if params.key?('projectId')
+      if params.key?('projectId') and ! uri.include?("projects")
         uri.sub! 'runs', "projects/#{params['projectId']}/runs"
       end
       super uri, client, "run", params
