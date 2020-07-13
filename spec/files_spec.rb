@@ -19,6 +19,17 @@ describe TestdroidAPI::Files do
     end
   end
 
+  it 'upload with wait' do
+    VCR.use_cassette(File.basename(__FILE__).split('_spec')[0] + '_upload_with_wait') do
+      uploaded = []
+      ['data.txt', 'data2.txt'].each do |file_name|
+        file = @user.files.upload(File.join(File.dirname(__FILE__), 'fixtures', file_name), true)
+        uploaded.push(file)
+      end
+      @user.files.wait_for_virus_scan(uploaded, 120)
+    end
+  end
+
   it 'get file' do
     VCR.use_cassette(File.basename(__FILE__).split('_spec')[0] + '_get_one') do
       file = @user.files.get(F_ID)
