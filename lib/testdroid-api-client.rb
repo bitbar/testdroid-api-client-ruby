@@ -4,7 +4,9 @@ require 'logger'
 require 'rest-client'
 require 'deep_merge'
 require 'oauth2'
- 
+require 'timeout'
+require 'set'
+
 require 'testdroid_api/client'
 require 'testdroid_api/apikey_client'
 
