@@ -11,7 +11,7 @@ describe TestdroidAPI::Project do
 
   it 'create project' do
     VCR.use_cassette(File.basename(__FILE__).split('_spec')[0] + '_create') do
-      project = @user.projects.create({:params => {:name => 'My Project'}})
+      project = @user.projects.create({:name => 'My Project'})
       expect(project.name).to eq 'My Project'
       P_ID = project.id
     end

@@ -11,7 +11,7 @@ describe TestdroidAPI::DeviceGroup do
 
   it 'create device group' do
     VCR.use_cassette(File.basename(__FILE__).split('_spec')[0] + '_create') do
-      device_group = @user.device_groups.create({:params => {:displayName => 'Empty'}})
+      device_group = @user.device_groups.create({:displayName => 'Empty'})
       DG_ID = device_group.id
     end
   end
