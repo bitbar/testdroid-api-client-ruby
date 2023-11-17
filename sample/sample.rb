@@ -1,8 +1,6 @@
 require 'testdroid-api-client'
 
-client = TestdroidAPI::Client.new(ENV['BITBAR_USERNAME'], ENV['BITBAR_PASSWORD'])
-#or using api key:
-#client = TestdroidAPI::ApikeyClient.new(ENV['BITBAR_APIKEY'])
+client = TestdroidAPI::ApikeyClient.new(ENV['BITBAR_APIKEY'])
 #to use private cloud specify cloud url as:
 #client = TestdroidAPI::Client.new('API_KEY', 'https://customer.bitbar.com')
 user = client.authorize

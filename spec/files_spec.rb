@@ -11,7 +11,7 @@ describe TestdroidAPI::Files do
 
   it 'upload file' do
     VCR.use_cassette(File.basename(__FILE__).split('_spec')[0] + '_upload') do
-      file_name = 'apk.apk'
+      file_name = 'app.apk'
       file_path = File.join(File.dirname(__FILE__), 'fixtures', file_name)
       file = @user.files.upload(file_path)
       F_ID = file.id
@@ -33,7 +33,7 @@ describe TestdroidAPI::Files do
   it 'get file' do
     VCR.use_cassette(File.basename(__FILE__).split('_spec')[0] + '_get_one') do
       file = @user.files.get(F_ID)
-      expect(file.name).to eq('apk.apk')
+      expect(file.name).to eq('app.apk')
       expect(file.id).to eq(F_ID)
     end
   end

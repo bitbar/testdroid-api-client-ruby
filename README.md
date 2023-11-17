@@ -1,5 +1,4 @@
 [![Gem Version](https://badge.fury.io/rb/testdroid-api-client.svg)](https://badge.fury.io/rb/testdroid-api-client)
-[![Build Status](https://travis-ci.org/bitbar/testdroid-api-client-ruby.svg?branch=master)](https://travis-ci.org/bitbar/testdroid-api-client-ruby)
 
 
 Testdroid API Client for Ruby
@@ -79,4 +78,11 @@ files.list({:limit => 40,:filter => "s_direction_eq_INPUT"}).each {
     |f| puts "File id: #{f.id} name: #{f.name}" }
 ```
 
-See https://cloud.bitbar.com/cloud/swagger-ui.html for more details about API V2
+See https://cloud.bitbar.com/cloud/swagger-ui.html for more details about API V2, make sure you are logged in.
+
+Local development
+=================
+
+1. Install ruby
+2. `bundle install`
+3. Run tests: `rspec`, remove `spec/fixtures/cassettes` if you want to execute real Http requests

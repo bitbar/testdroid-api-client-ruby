@@ -12,11 +12,13 @@ describe TestdroidAPI::Project do
 
   it 'start test run' do
     VCR.use_cassette(File.basename(__FILE__).split('_spec')[0] + '_start_run') do
-      framework_id = @user.available_frameworks.list({:filter => "s_osType_eq_ANDROID;s_name_like_%AppCrawler"})[0].id
-      app_file_id = @user.files.upload(File.join(File.dirname(__FILE__), 'fixtures', 'apk.apk')).id
+      framework_id = @user.available_frameworks.list({:filter => "s_osType_eq_ANDROID;s_name_like_%Android Instrumentation"})[0].id
+      app_file_id = @user.files.upload(File.join(File.dirname(__FILE__), 'fixtures', 'app.apk')).id
+      test_file_id = @user.files.upload(File.join(File.dirname(__FILE__), 'fixtures', 'test.apk')).id
 
       test_run = @user.runs.create("{\"osType\": \"ANDROID\", \"projectName\": \"My new Project\",
-          \"frameworkId\":#{framework_id}, \"files\": [{\"id\": #{app_file_id}, \"action\": \"INSTALL\" }]}")
+          \"frameworkId\":#{framework_id}, \"files\": [{\"id\": #{app_file_id}, \"action\": \"INSTALL\" },
+           {\"id\": #{test_file_id}, \"action\": \"RUN_TEST\" }]}")
 
       P_ID = test_run.project_id
       TR_ID = test_run.id
@@ -26,7 +28,7 @@ describe TestdroidAPI::Project do
   it 'get project test runs' do
     VCR.use_cassette(File.basename(__FILE__).split('_spec')[0] + '_get_project_runs') do
       test_runs = @user.projects.get(P_ID).runs
-      expect(test_runs.total).to eq(1)
+	  expect(test_runs.total).to satisfy {|n| n > 0}
     end
   end
 

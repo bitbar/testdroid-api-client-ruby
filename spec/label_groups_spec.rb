@@ -18,7 +18,7 @@ describe TestdroidAPI::LabelGroups do
 
   it 'create label group' do
     VCR.use_cassette(File.basename(__FILE__).split('_spec')[0] + '_create') do
-      label_group = client_local_host.label_groups.create({:params => {:displayName => 'Empty', :name => 'empty'}})
+      label_group = client_local_host.label_groups.create({:displayName => 'Empty', :name => 'empty'})
       LG_ID = label_group.id
     end
   end
@@ -27,7 +27,7 @@ describe TestdroidAPI::LabelGroups do
     VCR.use_cassette(File.basename(__FILE__).split('_spec')[0] + '_get_one') do
       label_group = client_local_host.label_groups.get(LG_ID)
       expect(label_group.id).to be(LG_ID)
-      expect(label_group.display_name).to eq("Empty")
+      expect(label_group.display_name).to eq('Empty')
     end
   end
 

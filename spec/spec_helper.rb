@@ -20,14 +20,14 @@ end
 
 def client 
 	@client ||= begin
-		client = Client.new('defaultuser', 'password')
+		client = ApikeyClient.new('API_KEY')
 	rescue Exception => e
 	end
 end
 
 def client_local_host(local_cloud='http://localhost/testdroid-cloud')
 	@client_local_host ||= begin
-		client_local_host = Client.new('admin@localhost', 'admin', local_cloud)
+		client_local_host = ApikeyClient.new('API_KEY', local_cloud)
 	rescue Exception => e
 	end
 end

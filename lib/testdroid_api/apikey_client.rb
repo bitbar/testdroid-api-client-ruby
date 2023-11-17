@@ -1,5 +1,6 @@
 module TestdroidAPI
-  class ApikeyClient < Client
+
+  class ApikeyClient
 
     attr_reader :config
     attr_accessor :logger
@@ -23,10 +24,14 @@ module TestdroidAPI
 
       if @cloud_user.nil?
         @cloud_user = TestdroidAPI::User.new("/#{API_VERSION}/me", self).refresh
-        @cloud_user = TestdroidAPI::User.new("/#{API_VERSION}/users/#{@cloud_user.id}", self).refresh
 
       end
       @cloud_user
+    end
+
+    def mime_for(path)
+      mime = MIME::Types.type_for path
+      mime.empty? ? 'text/plain' : mime[0].content_type
     end
 
     # Basic methods
@@ -114,6 +119,42 @@ module TestdroidAPI
         @logger.error "Failed to get resource #{uri} #{e}"
         return nil
       end
+    end
+
+# Resources
+
+# public read-only
+
+    def info
+      TestdroidAPI::CloudResource.new("/#{API_VERSION}/info", self, "info")
+    end
+
+    def devices
+      TestdroidAPI::Devices.new("/#{API_VERSION}/devices", self)
+    end
+
+    def label_groups
+      TestdroidAPI::LabelGroups.new("/#{API_VERSION}/label-groups", self)
+    end
+
+# user read-write
+
+    def me
+      TestdroidAPI::User.new("/#{API_VERSION}/me", self).load
+    end
+
+    def properties
+      TestdroidAPI::Properties.new("/#{API_VERSION}/properties", self)
+    end
+
+    def device_session_connections
+      TestdroidAPI::DeviceSessionConnections.new("/#{API_VERSION}/device-session-connections", self)
+    end
+
+# admin only
+
+    def admin
+      TestdroidAPI::Admin.new("/#{API_VERSION}/admin", self)
     end
 
   end

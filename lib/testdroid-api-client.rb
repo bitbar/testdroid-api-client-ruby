@@ -7,7 +7,6 @@ require 'oauth2'
 require 'timeout'
 require 'set'
 
-require 'testdroid_api/client'
 require 'testdroid_api/apikey_client'
 
 require 'testdroid_api/cloud_resource'
